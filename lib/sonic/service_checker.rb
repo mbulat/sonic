@@ -26,6 +26,9 @@ module Sonic
       when :http, :https
         http = Protocol::HTTP.new(self)
         http.get
+      when :amqp
+        amqp = Protocol::AMQP.new(self)
+        amqp.check
       when :tcp
         tcp = Protocol::TCP.new(self)
         tcp.send

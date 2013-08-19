@@ -5,6 +5,7 @@ module Sonic
   module Protocol
     autoload :Base,       'sonic/protocols/base'
     autoload :HTTP,       'sonic/protocols/http'
+    autoload :AMQP,       'sonic/protocols/amqp'
     autoload :TCP,        'sonic/protocols/tcp'
   end
 

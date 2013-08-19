@@ -75,6 +75,7 @@ module Sonic
         end
 
       end
+
       context "with valid tcp arguments" do
         let(:protocol)  { :tcp }
         let(:host) { "localhost" }
@@ -127,6 +128,60 @@ module Sonic
             describe '#error' do
               subject { service_checker.error }
               it { should == "service unavailable" }
+            end
+          end
+        end
+
+      end
+
+      context "with valid amqp arguments" do
+        let(:protocol)  { :amqp }
+        let(:host) { "localhost" }
+        let(:port) { 567222 }
+
+        subject(:service_checker) { ServiceChecker.new(protocol, host, port) }
+        it { should be_kind_of ServiceChecker }
+
+        describe "attributes" do
+          its(:protocol) { should be_kind_of(Symbol) }
+          its(:host)     { should be_kind_of(String) }
+          its(:port)     { should be_kind_of(Integer) }
+        end
+
+        context "with responding service" do
+          describe '#check_service' do
+            before(:each) do
+              double_bunny = double(Bunny)
+              Bunny.stub(:new).with({:host => host, :port => port}).and_return(double_bunny)
+              double_bunny.stub(:start).and_return(:connected)
+            end
+
+            subject { service_checker.check_service }
+            it { should be_true }
+
+            describe '#response' do
+              before { service_checker.check_service }
+              subject { service_checker.response }
+              it { should == :connected }
+            end
+          end
+        end
+
+        context "without responding service" do
+          describe '#check_service' do
+            subject { service_checker.check_service }
+            it { should be_false }
+          end
+
+          context "successfuly checked down service" do
+            before { service_checker.check_service }
+            describe '#response' do
+              subject { service_checker.response }
+              it { should be_nil }
+            end
+            describe '#error' do
+              subject { service_checker.error }
+              it { should be_kind_of(Bunny::ServerDownError) }
             end
           end
         end
