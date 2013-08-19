@@ -1,5 +1,7 @@
 require "sonic/version"
-
+require "rails"
 module Sonic
-  # Your code goes here...
+  class Engine < Rails::Engine
+    isolate_namespace Sonic
+  end
 end
