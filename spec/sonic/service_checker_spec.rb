@@ -1,3 +1,4 @@
+require 'bunny'
 require 'spec_helper'
 
 module Sonic
@@ -69,7 +70,7 @@ module Sonic
             end
             describe '#error' do
               subject { service_checker.error }
-              it { should == "service unavailable" }
+              it { should == "Exception from WebMock" }
             end
           end
         end
@@ -127,7 +128,7 @@ module Sonic
             end
             describe '#error' do
               subject { service_checker.error }
-              it { should == "service unavailable" }
+              it { should == "Connection refused - connect(2)" }
             end
           end
         end
@@ -151,9 +152,11 @@ module Sonic
         context "with responding service" do
           describe '#check_service' do
             before(:each) do
-              double_bunny = double(Bunny)
-              Bunny.stub(:new).with({:host => host, :port => port}).and_return(double_bunny)
-              double_bunny.stub(:start).and_return(:connected)
+              double_bunny = double(::Bunny)
+              double_bunny.stub(:start)
+              double_bunny.stub(:status).and_return(:open)
+              double_bunny.stub(:close).and_return(:closed)
+              ::Bunny.stub(:new).with({:host => host, :port => port}).and_return(double_bunny)
             end
 
             subject { service_checker.check_service }
@@ -162,7 +165,7 @@ module Sonic
             describe '#response' do
               before { service_checker.check_service }
               subject { service_checker.response }
-              it { should == :connected }
+              it { should == :open }
             end
           end
         end
@@ -181,7 +184,7 @@ module Sonic
             end
             describe '#error' do
               subject { service_checker.error }
-              it { should be_kind_of(Bunny::ServerDownError) }
+              it { should == "Could not establish TCP connection to localhost:567222: " }
             end
           end
         end
