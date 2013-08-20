@@ -1,0 +1,22 @@
+<div class="sonic_container">
+<h1>Status Check</h1>
+
+<table>
+  <tr>
+    <th>Protocol</th>
+    <th>Check Time</th>
+    <th>Response</th>
+    <th>Error</th>
+  </tr>
+
+<% @results.each do |key, value| %>
+  <tr class="<%= cycle("even", "odd") -%>">
+    <td><%=h key %></td>
+    <td><%=h value["timestamp"] %></td>
+    <td><%=h value["response"] %></td>
+    <td><%=h value["error"] %></td>
+  </tr>
+<% end %>
+</table>
+
+</div>
