@@ -1,0 +1,9 @@
+Description:
+    Generator for Sonic Engine
+
+Example:
+    rails g sonic
+
+    This will create:
+      * Clockwork clock file in lib/sonic_clock.rb
+      * Sonic configuration in config/lib/initializers/sonic_config.rb

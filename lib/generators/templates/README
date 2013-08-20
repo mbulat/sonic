@@ -1,0 +1,13 @@
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+ 1. Ensure you have defined your checks in the sonic_config.rb file.
+    This file is now located in config/initializers/sonic_config.rb 
+    and includes a sample configration. Be sure to read the Sonic README
+    for more information.
+
+ 2. A sample Clockwork clock file has been provided an
+    lib/sonic_clock.rb. You'll want to include this in your Procfile or
+    somehow set this to be daemonized in your production environment. 
+

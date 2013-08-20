@@ -20,7 +20,7 @@ module Sonic
             false
           end
         rescue Exception => e
-          @service_checker.error = e
+          @service_checker.error = e.to_s
           false
         end
       end

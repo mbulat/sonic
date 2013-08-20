@@ -37,8 +37,8 @@ module Sonic
           else
             false
           end
-        rescue Errno::ECONNREFUSED
-          @service_checker.error = "service unavailable"
+        rescue Exception => e
+          @service_checker.error = e.to_s
           false
         end
 
