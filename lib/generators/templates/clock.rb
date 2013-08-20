@@ -2,8 +2,11 @@ require 'clockwork'
 require 'sonic'
 require 'json'
 
-unless defined?(Sonic::SONIC_CHECKS)
-  raise "Sonic checks not configured. Please ensure your sonic configration file is correct"
+begin
+  require File.expand_path('../../config/initializers/sonic_config.rb', __FILE__)
+rescue LoadError
+  puts "\e[31mSonic checks not configured. Run 'rails g sonic' and configure checks.\e[0m"
+  exit
 end
 
 module Clockwork
