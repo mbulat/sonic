@@ -12,15 +12,51 @@ Add this line to your application's Gemfile:
 
 And then execute:
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install sonic
+    $ rails g sonic
 
 ## Usage
 
-TODO: Write usage instructions here
+Sonic is configured via a simple DSL. Service checks are added by
+updating the file in `config/intializers/sonic_config.rb`
+
+Currently three types of services can be checked, http, tcp, and amqp.
+
+Here's an example sonic_config.rb file
+
+```ruby
+module Sonic
+  checks = []
+
+  checks << Sonic.service_checker do
+    protocol :http
+    host 'myhttpserver'
+    port 80
+    path 'path/to/check'
+  end
+
+  checks << Sonic.service_checker do
+    protocol :amqp
+    host 'myrabbitmqserver'
+    port 5672
+  end
+
+  checks << Sonic.service_checker do
+    protocol :tcp
+    host 'mytcpserver'
+    port 12345
+    payload 'some command'
+  end
+
+  SONIC_CHECKS = checks
+end
+```
+
+Sonic also comes with a Clockwork clock file that can be executed that
+will check the configured services every 3 mintues. This file can be
+executed via your Procfile or whatever daemonizer your using. For
+example you could add this to your Profile
+
+    sonic_clock:  bundle exec clockwork lib/sonic_clock.rb
 
 ## Contributing
 
