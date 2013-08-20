@@ -58,6 +58,18 @@ example you could add this to your Profile
 
     sonic_clock:  bundle exec clockwork lib/sonic_clock.rb
 
+## Rails Engine
+
+The service checks are published to a json file in your rails public
+folder at `public/sonic/results.json`. A very simple view is available
+that will let you see your results. Include the routes by adding the
+folowing to your `routes.rb` file
+
+    mount Sonic::Engine => "/sonic", :as => "sonic"
+
+You can then view the status of your services by visiting `sonic/` or
+`sonic/results.json`
+
 ## Contributing
 
 1. Fork it
