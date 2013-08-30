@@ -22,6 +22,8 @@ module Sonic
     end
 
     def check_service()
+      @response = nil
+      @error = nil
       case protocol
       when :http, :https
         http = Protocol::HTTP.new(self)
