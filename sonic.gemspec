@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "sqlite3"
   spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rspec-rails", "~> 2.6"
+  spec.add_development_dependency "rspec-rails", "~> 2.14"
   spec.add_development_dependency "guard"
   spec.add_development_dependency "guard-rspec"
   spec.add_development_dependency "fuubar"
