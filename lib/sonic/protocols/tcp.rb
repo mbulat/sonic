@@ -19,9 +19,9 @@ module Sonic
           connection = TCPSocket.new(@host, @port)
           if @ssl_cert && @ssl_key
             ssl_context = OpenSSL::SSL::SSLContext.new()
-            ssl_context.cert = OpenSSL::X509::Certificate.new(File.read("#{Dir.pwd}/#{@ssl_cert}"))
-            ssl_context.ca_file = "#{Dir.pwd}/#{@ssl_cert}"
-            ssl_context.key = OpenSSL::PKey::RSA.new(File.read("#{Dir.pwd}/#{@ssl_key}"))
+            ssl_context.cert = OpenSSL::X509::Certificate.new(File.read("#{Dir.pwd}/certs/#{@ssl_cert}"))
+            ssl_context.ca_file = "#{Dir.pwd}/certs/#{@ssl_cert}"
+            ssl_context.key = OpenSSL::PKey::RSA.new(File.read("#{Dir.pwd}/certs/#{@ssl_key}"))
             socket = OpenSSL::SSL::SSLSocket.new(connection, ssl_context)
             socket.sync_close = true
             socket.connect
