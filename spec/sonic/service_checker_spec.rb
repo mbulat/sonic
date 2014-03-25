@@ -128,7 +128,7 @@ module Sonic
             end
             describe '#error' do
               subject { service_checker.error }
-              it { should == "Connection refused - connect(2)" }
+              it { should == %q{Connection refused - connect(2) for "localhost" port 6667} }
             end
           end
         end
