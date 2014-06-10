@@ -6,12 +6,16 @@ module Sonic
       include Protocol::Base
 
       def initialize(service_checker)
-        @service_checker = service_checker  
+        @service_checker = service_checker
       end
 
       def check
         begin
-          conn = ::Bunny.new(:host => @service_checker.host, :port => @service_checker.port)
+          conn = ::Bunny.new(:host => @service_checker.host,
+                             :port => @service_checker.port,
+                             :username => @service_checker.username,
+                             :password => @service_checker.password,
+                             :vhost => @service_checker.vhost)
           conn.start
           @service_checker.response = conn.status
           if @service_checker.response == :open
