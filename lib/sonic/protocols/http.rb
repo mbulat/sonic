@@ -9,8 +9,8 @@ module Sonic
         @service_checker = service_checker
         @http = Net::HTTP.new(service_checker.host, service_checker.port)
         if service_checker.protocol == :https
-          http.use_ssl = true
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          @http.use_ssl = true
+          @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
         @request = Net::HTTP::Get.new(service_checker.path)
       end
