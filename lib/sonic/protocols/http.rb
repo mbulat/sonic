@@ -17,12 +17,13 @@ module Sonic
 
       def get
         begin
-          @service_checker.response = @http.request(@request).body
-          case @service_checker.response.code
+          response = @http.request(@request)
+          @service_checker.response = response.body
+          case response.code
           when '200', '201', '202', '203', '204', '205', '206'
             true
           else
-            @service_checker.error = "service error"
+            @service_checker.error = response.error
             false
           end
         rescue Exception => e
