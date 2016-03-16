@@ -7,13 +7,17 @@ module Sonic
 
       def initialize(service_checker)
         @service_checker = service_checker
-        port_suffix = service_checker.port ? ":#{service_checker.port}" : ""
-        @uri = URI.parse("#{service_checker.protocol}://#{service_checker.host}#{port_suffix}/#{service_checker.path}")
+        @http = Net::HTTP.new(service_checker.host, service_checker.port)
+        if service_checker.protocol == :https
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
+        @request = Net::HTTP::Get.new(service_checker.path)
       end
 
       def get
         begin
-          @service_checker.response = Net::HTTP.get_response(@uri)
+          @service_checker.response = @http.request(@request)
           case @service_checker.response.code
           when '200', '201', '202', '203', '204', '205', '206'
             true
