@@ -17,7 +17,7 @@ module Sonic
 
       def get
         begin
-          @service_checker.response = @http.request(@request)
+          @service_checker.response = @http.request(@request).body
           case @service_checker.response.code
           when '200', '201', '202', '203', '204', '205', '206'
             true
